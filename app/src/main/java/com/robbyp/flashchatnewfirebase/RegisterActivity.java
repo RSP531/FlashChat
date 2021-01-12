@@ -1,6 +1,8 @@
 package com.robbyp.flashchatnewfirebase;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -137,12 +139,22 @@ public class RegisterActivity extends AppCompatActivity {
                     showErrorDialog("Registration Attempt Failed");
                 } else {
                     Log.d("FlashChat", "user should be registered");
+                    saveDisplayName();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    finish();
+                    startActivity(intent);
                 }
             }
         });
     }
 
     // TODO: Save the display name to Shared Preferences
+    private void saveDisplayName(){
+        String displayName = mUsernameView.getText().toString();
+
+        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
+        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+    }
 
 
     // TODO: Create an alert dialog to show in case registration failed
